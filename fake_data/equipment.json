@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Equipment 1",
+        "facilityId": 1
+    },
+    {
+        "id": 2,
+        "name": "Equipment 2",
+        "facilityId": 1
+    },
+    {
+        "id": 3,
+        "name": "Equipment 3",
+        "facilityId": 2
+    },
+    {
+        "id": 4,
+        "name": "Equipment 4",
+        "facilityId": 1
+    },
+    {
+        "id": 5,
+        "name": "Equipment 5",
+        "facilityId": 2
+    }
+]
