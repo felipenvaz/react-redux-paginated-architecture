@@ -6,8 +6,7 @@ export interface IAction {
 };
 
 export interface IMeta {
-    id: any;
-    fetching: boolean;
+    fetching?: boolean;
 }
 
 const createActionType = (root: string) => ({

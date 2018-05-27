@@ -1,39 +1,46 @@
-import { IAction, EQUIPMENT } from "../constants/actionsTypes";
-import { IReducerState } from "./IReducerState";
+import { IAction, EQUIPMENT, IMeta } from "../constants/actionsTypes";
+import { IReducerState, IFilteredState } from "./IReducerState";
+import { IEquipment, IEquipmentFilter } from "../api/equipmentApi";
+import { setFilteredList } from "./reducerAux";
 
-export interface IEquipment {
-    id: number;
-    name: string;
-    facilityId: number;
+export interface IEquipmentReducerState extends IFilteredState<IEquipment, IEquipmentFilter> {
 }
 
-export interface IEquipmentReducerState extends IReducerState<IEquipment> {
-    byFacilityId?: { [id: number]: number[] }
+export interface IEquipmentMeta extends IMeta {
+    filter?: IEquipmentFilter;
 }
 
-const defaultState = { byId: {}, byFacilityId: {}, list: [], fetching: false };
+export interface IEquipmentAction extends IAction {
+    meta: IEquipmentMeta;
+}
 
-export default (state: IEquipmentReducerState = defaultState, action: IAction) => {
+const defaultState: IEquipmentReducerState = { byId: {}, filteredLists: [] };
+
+export default (state: IEquipmentReducerState = defaultState, action: IEquipmentAction) => {
     let newState = state;
     switch (action.type) {
         case EQUIPMENT.GET_ALL.REQUEST:
-            newState = { ...newState, fetching: true };
+            //newState = { ...newState, fetching: true };
             break;
         case EQUIPMENT.GET_ALL.DONE:
-            let byId = (action.payload as IEquipment[]).reduce((acc, equip) => {
+            let byIdFiltered = (action.payload as IEquipment[]).reduce((acc, equip) => {
                 acc[equip.id] = equip;
                 return acc;
             }, {});
 
+            let byId = { ...newState.byId, ...byIdFiltered };
             newState = {
-                ...newState,
                 byId,
-                list: Object.keys(byId),
-                fetching: false
+                filteredLists: setFilteredList(newState.filteredLists,
+                    {
+                        fetching: false,
+                        filter: action.meta.filter,
+                        idList: Object.keys(byIdFiltered)
+                    })
             };
             break;
         case EQUIPMENT.GET_ALL.ERROR:
-            newState = { ...newState, fetching: false };
+            //newState = { ...newState, fetching: false };
             break;
     }
 

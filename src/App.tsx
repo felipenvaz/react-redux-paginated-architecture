@@ -8,8 +8,8 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <React.Fragment>
-          <EquipmentList />
-          <EquipmentList />
+          <EquipmentList facilityId={1} />
+          <EquipmentList facilityId={2} />
         </ React.Fragment>
       </Provider>
     );
