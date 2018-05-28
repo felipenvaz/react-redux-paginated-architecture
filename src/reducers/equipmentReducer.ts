@@ -20,7 +20,7 @@ export default (state: IEquipmentReducerState = defaultState, action: IEquipment
     let newState = state;
     switch (action.type) {
         case EQUIPMENT.GET_ALL.REQUEST:
-            //newState = { ...newState, fetching: true };
+            newState = { ...newState };
             break;
         case EQUIPMENT.GET_ALL.DONE:
             let byIdFiltered = (action.payload as IEquipment[]).reduce((acc, equip) => {
